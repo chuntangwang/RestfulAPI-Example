@@ -12,6 +12,8 @@
 		24769F401E86C8C7002A7A54 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 24769F3E1E86C8C7002A7A54 /* Main.storyboard */; };
 		24769F421E86C8C7002A7A54 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 24769F411E86C8C7002A7A54 /* Assets.xcassets */; };
 		24769F451E86C8C7002A7A54 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 24769F431E86C8C7002A7A54 /* LaunchScreen.storyboard */; };
+		24769F4F1E86C9E0002A7A54 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24769F4D1E86C9E0002A7A54 /* Alamofire.framework */; };
+		24769F501E86C9E0002A7A54 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24769F4E1E86C9E0002A7A54 /* SwiftyJSON.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,8 @@
 		24769F411E86C8C7002A7A54 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		24769F441E86C8C7002A7A54 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		24769F461E86C8C7002A7A54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		24769F4D1E86C9E0002A7A54 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
+		24769F4E1E86C9E0002A7A54 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +33,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				24769F4F1E86C9E0002A7A54 /* Alamofire.framework in Frameworks */,
+				24769F501E86C9E0002A7A54 /* SwiftyJSON.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -39,6 +45,7 @@
 			isa = PBXGroup;
 			children = (
 				24769F391E86C8C7002A7A54 /* RestfulAPI-Example */,
+				24769F4C1E86C9DF002A7A54 /* Frameworks */,
 				24769F381E86C8C7002A7A54 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -54,14 +61,31 @@
 		24769F391E86C8C7002A7A54 /* RestfulAPI-Example */ = {
 			isa = PBXGroup;
 			children = (
+				24769F531E86CA35002A7A54 /* etc */,
 				24769F3A1E86C8C7002A7A54 /* AppDelegate.swift */,
 				24769F3C1E86C8C7002A7A54 /* ViewController.swift */,
 				24769F3E1E86C8C7002A7A54 /* Main.storyboard */,
-				24769F411E86C8C7002A7A54 /* Assets.xcassets */,
 				24769F431E86C8C7002A7A54 /* LaunchScreen.storyboard */,
-				24769F461E86C8C7002A7A54 /* Info.plist */,
 			);
 			path = "RestfulAPI-Example";
+			sourceTree = "<group>";
+		};
+		24769F4C1E86C9DF002A7A54 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				24769F4D1E86C9E0002A7A54 /* Alamofire.framework */,
+				24769F4E1E86C9E0002A7A54 /* SwiftyJSON.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		24769F531E86CA35002A7A54 /* etc */ = {
+			isa = PBXGroup;
+			children = (
+				24769F411E86C8C7002A7A54 /* Assets.xcassets */,
+				24769F461E86C8C7002A7A54 /* Info.plist */,
+			);
+			name = etc;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,6 +98,7 @@
 				24769F331E86C8C7002A7A54 /* Sources */,
 				24769F341E86C8C7002A7A54 /* Frameworks */,
 				24769F351E86C8C7002A7A54 /* Resources */,
+				24769F521E86C9FE002A7A54 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -130,6 +155,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		24769F521E86C9FE002A7A54 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/SwiftyJSON.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		24769F331E86C8C7002A7A54 /* Sources */ = {
@@ -258,7 +301,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = "RestfulAPI-Example/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.chuntangwang.RestfulAPI-Example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -270,7 +318,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = "RestfulAPI-Example/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.chuntangwang.RestfulAPI-Example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
