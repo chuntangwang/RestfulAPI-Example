@@ -9,7 +9,6 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
-import KeychainAccess
 
 class LoginViewController: UIViewController {
 
@@ -18,7 +17,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var warningLabel: UILabel!
     @IBOutlet weak var loginButton: UIButton!
     
-    let keychain = Keychain(service: "com.chuntangwang.RestfulAPI-Example")
+    var tokenManager: TokenManager?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,8 +73,11 @@ class LoginViewController: UIViewController {
                 switch response.result {
                 case .success(let data):
                     let json = JSON(data)
-                    let token = json["token"]["token"]
-                    self.keychain["token"] = token.stringValue
+                    print(json)
+                    let token = json["token"]["token"].stringValue
+                    let expired = json["token"]["exp"].doubleValue
+                    let expiredData = Date(timeIntervalSince1970: TimeInterval(expired))
+                    self.tokenManager = TokenManager(token: token, expired: expiredData)
                     
                     if let vc = UIStoryboard(name: "TabBar", bundle: nil).instantiateInitialViewController() {
                         vc.modalTransitionStyle = .crossDissolve
@@ -87,6 +89,10 @@ class LoginViewController: UIViewController {
                 
                 sender.isEnabled = true
         }
+    }
+    
+    func startTokenManager() {
+        
     }
 }
 

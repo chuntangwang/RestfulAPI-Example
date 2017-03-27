@@ -15,7 +15,6 @@ class MemberViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    let keychain = Keychain(service: "com.chuntangwang.RestfulAPI-Example")
     var members = [Member]()
 
     override func viewDidLoad() {
@@ -41,7 +40,7 @@ class MemberViewController: UIViewController {
     // MARK: - Data Request
     func requestMembers() {
         
-        guard let token = keychain["token"] else {
+        guard let token = TokenManager.keychain["token"] else {
             showAlert(title:"Warning", message: "Wrong session token")
             return
         }

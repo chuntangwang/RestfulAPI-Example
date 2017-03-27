@@ -16,8 +16,6 @@ class RegistrationViewController: UIViewController {
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var applyButton: UIButton!
     
-    let keychain = Keychain(service: "com.chuntangwang.RestfulAPI-Example")
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -50,7 +48,7 @@ class RegistrationViewController: UIViewController {
     
     
     @IBAction func apply(_ sender: UIButton) {
-        guard let token = keychain["token"] else {
+        guard let token = TokenManager.keychain["token"] else {
             showAlert(title:"Warning", message: "Wrong session token")
             return
         }

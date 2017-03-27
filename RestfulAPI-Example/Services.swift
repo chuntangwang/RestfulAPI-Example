@@ -7,6 +7,7 @@
 //
 
 import Alamofire
+import KeychainAccess
 
 enum Service {
     case login
@@ -32,11 +33,16 @@ enum Service {
     }
 }
 
-struct ToeknManager {
+struct TokenManager {
+    
+    static let keychain = Keychain(service: "com.chuntangwang.RestfulAPI-Example")
     
     let token: String
+    let expired: Date
     
-    init(token: String) {
+    init(token: String, expired: Date) {
         self.token = token
+        self.expired = expired
+        TokenManager.keychain["token"] = token
     }
 }
