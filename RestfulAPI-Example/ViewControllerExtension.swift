@@ -49,4 +49,11 @@ extension UIViewController {
         
         dismiss(animated: false, completion: completion)
     }
+    
+    func showAlert(title: String, message: String) {
+        let alertVc = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertVc.addAction(action)
+        self.present(alertVc, animated: true, completion: nil)
+    }
 }

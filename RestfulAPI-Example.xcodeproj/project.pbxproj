@@ -28,6 +28,9 @@
 		24769F451E86C8C7002A7A54 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 24769F431E86C8C7002A7A54 /* LaunchScreen.storyboard */; };
 		24769F4F1E86C9E0002A7A54 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24769F4D1E86C9E0002A7A54 /* Alamofire.framework */; };
 		24769F501E86C9E0002A7A54 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24769F4E1E86C9E0002A7A54 /* SwiftyJSON.framework */; };
+		24B2E52C1E8983960060EC82 /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24B2E52B1E8983960060EC82 /* KeychainAccess.framework */; };
+		24B2E52F1E8986B10060EC82 /* Services.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B2E52E1E8986B10060EC82 /* Services.swift */; };
+		24B2E5341E899E910060EC82 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B2E5331E899E910060EC82 /* Model.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +57,9 @@
 		24769F461E86C8C7002A7A54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		24769F4D1E86C9E0002A7A54 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		24769F4E1E86C9E0002A7A54 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
+		24B2E52B1E8983960060EC82 /* KeychainAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainAccess.framework; path = Carthage/Build/iOS/KeychainAccess.framework; sourceTree = "<group>"; };
+		24B2E52E1E8986B10060EC82 /* Services.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Services.swift; sourceTree = "<group>"; };
+		24B2E5331E899E910060EC82 /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +69,7 @@
 			files = (
 				24769F4F1E86C9E0002A7A54 /* Alamofire.framework in Frameworks */,
 				24769F501E86C9E0002A7A54 /* SwiftyJSON.framework in Frameworks */,
+				24B2E52C1E8983960060EC82 /* KeychainAccess.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,6 +145,8 @@
 				24769F531E86CA35002A7A54 /* Others */,
 				24769F3A1E86C8C7002A7A54 /* AppDelegate.swift */,
 				24769F3C1E86C8C7002A7A54 /* LoginViewController.swift */,
+				24B2E52E1E8986B10060EC82 /* Services.swift */,
+				24B2E5331E899E910060EC82 /* Model.swift */,
 				24769F3E1E86C8C7002A7A54 /* Main.storyboard */,
 				24769F431E86C8C7002A7A54 /* LaunchScreen.storyboard */,
 			);
@@ -147,6 +156,7 @@
 		24769F4C1E86C9DF002A7A54 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				24B2E52B1E8983960060EC82 /* KeychainAccess.framework */,
 				24769F4D1E86C9E0002A7A54 /* Alamofire.framework */,
 				24769F4E1E86C9E0002A7A54 /* SwiftyJSON.framework */,
 			);
@@ -243,6 +253,7 @@
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/SwiftyJSON.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/KeychainAccess.framework",
 			);
 			outputPaths = (
 			);
@@ -260,6 +271,8 @@
 				2438F3451E8807EF004B632A /* BookmarksViewController.swift in Sources */,
 				2438F33F1E8806B8004B632A /* TabBarViewController.swift in Sources */,
 				2438F3471E880814004B632A /* FavoritesViewController.swift in Sources */,
+				24B2E52F1E8986B10060EC82 /* Services.swift in Sources */,
+				24B2E5341E899E910060EC82 /* Model.swift in Sources */,
 				24769F3D1E86C8C7002A7A54 /* LoginViewController.swift in Sources */,
 				2438F3611E882C63004B632A /* RegistrationViewController.swift in Sources */,
 				24769F3B1E86C8C7002A7A54 /* AppDelegate.swift in Sources */,

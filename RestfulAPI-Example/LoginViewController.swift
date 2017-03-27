@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import Alamofire
+import SwiftyJSON
+import KeychainAccess
 
 class LoginViewController: UIViewController {
 
@@ -14,6 +17,8 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var warningLabel: UILabel!
     @IBOutlet weak var loginButton: UIButton!
+    
+    let keychain = Keychain(service: "com.chuntangwang.RestfulAPI-Example")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,17 +49,45 @@ class LoginViewController: UIViewController {
     }
 
     @IBAction func login(_ sender: UIButton) {
+        guard
+            let username = usernameTextField.text,
+            let password = passwordTextField.text,
+            !username.isEmpty && !password.isEmpty else {
+                warningLabel.text = "Please input your username and password."
+                return
+        }
+        
         sender.isEnabled = false
         
-        if let vc = UIStoryboard(name: "TabBar", bundle: nil).instantiateInitialViewController() {
-            
-            vc.modalTransitionStyle = .crossDissolve
-            present(vc, animated: true, completion: {
+        let api: Service = .login
+        let parameters: Parameters = [
+            "name": username,
+            "pwd": password
+        ]
+        
+        Alamofire.request(api.url(),
+                          method: api.method(),
+                          parameters: parameters,
+                          encoding: JSONEncoding.default)
+            .validate()
+            .responseJSON { response in
+                switch response.result {
+                case .success(let data):
+                    let json = JSON(data)
+                    let token = json["token"]["token"]
+                    self.keychain["token"] = token.stringValue
+                    
+                    if let vc = UIStoryboard(name: "TabBar", bundle: nil).instantiateInitialViewController() {
+                        vc.modalTransitionStyle = .crossDissolve
+                        self.present(vc, animated: true)
+                    }
+                case .failure(let error):
+                    self.showAlert(title:"Error", message: error.localizedDescription)
+                }
+                
                 sender.isEnabled = true
-            })
         }
     }
-
 }
 
 // MARK: - UITextFieldDelegate

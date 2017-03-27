@@ -7,16 +7,36 @@
 //
 
 import UIKit
+import Alamofire
+import SwiftyJSON
+import KeychainAccess
 
 class RegistrationViewController: UIViewController {
 
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var applyButton: UIButton!
     
+    let keychain = Keychain(service: "com.chuntangwang.RestfulAPI-Example")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
+        usernameTextField.delegate = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardDidShow(notification:)),
+                                               name: Notification.Name.UIKeyboardDidShow, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide(notification:)),
+                                               name: Notification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self)
+        super.viewWillDisappear(animated)
     }
 
     override func didReceiveMemoryWarning() {
@@ -30,17 +50,83 @@ class RegistrationViewController: UIViewController {
     
     
     @IBAction func apply(_ sender: UIButton) {
+        guard let token = keychain["token"] else {
+            showAlert(title:"Warning", message: "Wrong session token")
+            return
+        }
         
+        guard
+            let username = usernameTextField.text,
+            !username.isEmpty else {
+                showAlert(title:"Warning", message: "Please input username.")
+                return
+        }
+        
+        sender.isEnabled = false
+        
+        let api: Service = .createMember
+        let parameters: Parameters = [
+            "name": username
+        ]
+        let headers: HTTPHeaders = [
+            "Authorization": token
+        ]
+        
+        Alamofire.request(api.url(),
+                          method: api.method(),
+                          parameters: parameters,
+                          encoding: JSONEncoding.default,
+                          headers: headers)
+            .validate()
+            .responseJSON { response in
+                switch response.result {
+                case .success(let data):
+                    let json = JSON(data)
+                    let result = json["code"].stringValue
+                    self.showAlert(title:"Result", message: result)
+                case .failure(let error):
+                    self.showAlert(title:"Error", message: error.localizedDescription)
+                }
+                
+                sender.isEnabled = true
+        }
     }
+}
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+// MARK: - UITextFieldDelegate
+extension RegistrationViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        textField.resignFirstResponder()
+        return true
     }
-    */
+}
 
+// MARK: - Keyboard Notification
+extension RegistrationViewController {
+    
+    func keyboardDidShow(notification: Notification) {
+        // Reset first
+        UIView.animate(withDuration: 0.3, animations: {
+            self.view.frame.origin.y = 0
+        })
+        
+        // Shift
+        let keyboardRect = (notification.userInfo?["UIKeyboardFrameEndUserInfoKey"] as! NSValue).cgRectValue
+        
+        if applyButton.frame.maxY > keyboardRect.minY {
+            let offset = fabs(keyboardRect.minY - applyButton.frame.maxY)
+            UIView.animate(withDuration: 0.3, animations: {
+                self.view.frame.origin.y -= offset
+            })
+        }
+    }
+    
+    func keyboardWillHide(notification: Notification) {
+        // Reset
+        UIView.animate(withDuration: 0.3, animations: {
+            self.view.frame.origin.y = 0
+        })
+    }
 }
