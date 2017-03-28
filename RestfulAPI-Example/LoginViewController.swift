@@ -17,11 +17,12 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var warningLabel: UILabel!
     @IBOutlet weak var loginButton: UIButton!
     
-    var tokenManager: TokenManager?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        _ = TokenManager.shared
+        
         usernameTextField.delegate = self
         passwordTextField.delegate = self
         passwordTextField.tag = 1
@@ -48,21 +49,25 @@ class LoginViewController: UIViewController {
     }
 
     @IBAction func login(_ sender: UIButton) {
+        sender.isEnabled = false
+        
         guard
             let username = usernameTextField.text,
             let password = passwordTextField.text,
             !username.isEmpty && !password.isEmpty else {
                 warningLabel.text = "Please input your username and password."
+                sender.isEnabled = true
                 return
         }
-        
-        sender.isEnabled = false
         
         let api: Service = .login
         let parameters: Parameters = [
             "name": username,
             "pwd": password
         ]
+        
+        TokenManager.keychain["username"] = username
+        TokenManager.keychain["password"] = password
         
         Alamofire.request(api.url(),
                           method: api.method(),
@@ -76,8 +81,8 @@ class LoginViewController: UIViewController {
                     print(json)
                     let token = json["token"]["token"].stringValue
                     let expired = json["token"]["exp"].doubleValue
-                    let expiredData = Date(timeIntervalSince1970: TimeInterval(expired))
-                    self.tokenManager = TokenManager(token: token, expired: expiredData)
+                    TokenManager.shared.steup(token: token, expired: expired)
+                    TokenManager.shared.startMaintainToken()
                     
                     if let vc = UIStoryboard(name: "TabBar", bundle: nil).instantiateInitialViewController() {
                         vc.modalTransitionStyle = .crossDissolve
@@ -89,10 +94,6 @@ class LoginViewController: UIViewController {
                 
                 sender.isEnabled = true
         }
-    }
-    
-    func startTokenManager() {
-        
     }
 }
 

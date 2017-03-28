@@ -61,6 +61,12 @@ class TabBarViewController: UITabBarController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(applicationWillEnterForeground(notification:)),
+                                               name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(applicationWillEnterBackground(notification:)),
+                                               name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
         initializeGestures()
     }
     
@@ -72,8 +78,12 @@ class TabBarViewController: UITabBarController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.removeObserver(self, name: Notification.Name.displaySlideMenu, object: nil)
         super.viewWillDisappear(animated)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 
     override func didReceiveMemoryWarning() {
@@ -164,5 +174,19 @@ extension TabBarViewController: UIGestureRecognizerDelegate {
         }
         
         return false
+    }
+}
+
+// MARK: - Notification
+extension TabBarViewController {
+    
+    func applicationWillEnterForeground(notification: Notification) {
+        // Only refresh token after login
+        TokenManager.shared.refreshToken()
+        TokenManager.shared.startMaintainToken()
+    }
+    
+    func applicationWillEnterBackground(notification: Notification) {
+        TokenManager.shared.stopMaintainToken()
     }
 }
